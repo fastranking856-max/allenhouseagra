@@ -299,6 +299,7 @@ $linkClass = 'text-white transition hover:text-red-500 2xl:text-[17px] xl:text-[
 </a>
 <?php endif; ?>
 
+<?php include __DIR__ . '/form-proxy-client.php'; ?>
 <?php include __DIR__ . '/newsletter-script.php'; ?>
 
 <script>

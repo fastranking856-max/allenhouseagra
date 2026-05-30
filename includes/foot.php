@@ -146,6 +146,7 @@
  
 
 <script>
+    <?php include __DIR__ . '/form-proxy-client.php'; ?>
     const BASE_URL = "<?= rtrim(((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . rtrim(site_base_url(), '/'), '/') ?>";
     const popupForm = document.getElementById("popupForm");
     const sessionSelect = document.getElementById("esession");
@@ -361,18 +362,18 @@
                 source_type: "Website",
             };
 
-            fetch(`proxy/admission-proxy`, {
+            fetch(`${BASE_URL}/proxy/admission-proxy`, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
                     },
                     body: JSON.stringify(payload)
                 })
-                .then(response => {
-                    if (!response.ok) throw new Error("Error: " + response.statusText);
-                    return response.json();
+                .then(function (response) {
+                    return window.cmsParseProxyJson(response);
                 })
-                .then(data => {
+                .then(function () {
                     const successPopup = document.getElementById("esuccessPopup");
                     if (successPopup) {
                         successPopup.classList.remove("hidden");

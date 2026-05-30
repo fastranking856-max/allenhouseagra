@@ -181,6 +181,7 @@ $page = "contact-us";
             <iframe class="w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4403.684031274528!2d77.9299328!3d27.193265800000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397477cdcb9a270f%3A0x2b0828d5140c9e1a!2sAllenhouse%20Public%20School%20Agra!5e1!3m2!1sen!2sin!4v1747739342760!5m2!1sen!2sin" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
+        <?php include "includes/form-proxy-client.php"; ?>
         <?php include "includes/contact-form-script.php"; ?>
 
         <?php include "includes/footer.php" ?>
