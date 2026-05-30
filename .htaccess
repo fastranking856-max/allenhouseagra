@@ -1,0 +1,47 @@
+RewriteEngine On
+RewriteBase /api_integration/allenhouseagra/
+
+# Detect local environment (XAMPP) and set APS_LOCAL flag
+RewriteCond %{HTTP_HOST} ^localhost$ [NC,OR]
+RewriteCond %{HTTP_HOST} \.local$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^127\.0\.0\.1$
+RewriteRule ^ - [E=APS_LOCAL:1]
+
+# Force HTTPS only on production (skip local environments)
+RewriteCond %{ENV:APS_LOCAL} !=1
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Cache static assets (CSS, JS, images, fonts)
+<IfModule mod_headers.c>
+    SetEnvIf Request_URI "\\.(?:css|js|mjs|ico|jpg|jpeg|png|gif|webp|svg|woff2?|ttf|eot|map)$" STATIC_ASSET
+    Header set Cache-Control "public, max-age=2592000" env=STATIC_ASSET
+    Header set Cache-Control "private, no-cache, must-revalidate" env=!STATIC_ASSET
+</IfModule>
+
+DirectoryIndex index.php
+
+# Serve existing files and directories directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Friendly URL rewrites
+RewriteRule ^blog/([A-Za-z0-9-]+)/?$ detail.php?slug=$1 [NC,L,QSA]
+RewriteRule ^view/([A-Za-z0-9-]+)/?$ detail-view.php?slug=$1 [NC,L,QSA]
+RewriteRule ^home/?$ index.php [NC,L]
+
+# Map clean URLs to matching .php files (e.g. /about-us -> about-us.php)
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+?)/?$ $1.php [L]
+
+# CMS dynamic page when no local PHP file exists
+RewriteCond %{REQUEST_FILENAME}.php !-f
+RewriteRule ^([A-Za-z0-9_-]+)/?$ cms-page.php?cms_path=$1 [NC,L,QSA]
+
+# Fallback
+RewriteRule ^ index.php [L]
+
+# Custom error handling
+ErrorDocument 404 /api_integration/allenhouseagra/index.php
+ErrorDocument 500 /api_integration/allenhouseagra/index.php

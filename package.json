@@ -1,0 +1,15 @@
+{
+  "name": "allenhouseagra",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.4"
+  },
+  "scripts": {
+    "build:tailwind": "tailwindcss -i assets/css/tailwind-input.css -o assets/css/tailwind.css --minify --content './**/*.php'",
+    "vercel-build": "npm run build:tailwind && node scripts/vercel-standalone-build.mjs"
+  }
+}
