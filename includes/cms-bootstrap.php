@@ -35,3 +35,7 @@ if (!function_exists('cmsFetchAgraPage')) {
         return cmsFetchPageBySlug($slug);
     }
 }
+
+if (function_exists('cmsAutoGuardCurrentScriptPage')) {
+    cmsAutoGuardCurrentScriptPage();
+}

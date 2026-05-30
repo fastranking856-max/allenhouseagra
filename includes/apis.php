@@ -237,3 +237,5 @@ function cms_image_alt($item, string $fallback = ''): string
 
     return htmlspecialchars((string) $alt, ENT_QUOTES, 'UTF-8');
 }
+
+require_once __DIR__ . '/cms-bootstrap.php';
